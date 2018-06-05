@@ -16,6 +16,7 @@ class Contacto:
         self.telefono = telefono
         self.email = email
         self.next = None
+        self.prev = None
 
     def getInformacion(self):
         print("Nombre: ",self.nombre)
