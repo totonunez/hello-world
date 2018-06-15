@@ -61,7 +61,7 @@ class Lista:
                 delete.next.prev=delete.prev
             if delete.prev is not None:
                 delete.prev.next=delete.next
-            if delete = self.head:
+            if delete == self.head:
                 self.head=self.head.next
             gc.collect()
             
@@ -69,7 +69,7 @@ class Lista:
         
         
     
-        def invertir(self):
+    def invertir(self):
         while self.head.next:
             aux=self.head
             while aux.next.next:
@@ -106,8 +106,3 @@ class Lista:
         email = input()
         nuevo = Contacto(nombre,apellido,telefono,email)
         return self.agregarOrden(nuevo)
-
-    
-
-
-    
