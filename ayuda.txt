@@ -1,0 +1,14 @@
+
+#listacontactos = ListaContactos()
+#n=int(input("Agregar la cantidad de contactos en su estructura: "))
+
+
+#listacontactos.ingresarNContactos(n)
+
+
+#buscado = listacontactos.buscarContacto()
+#inicio = time()
+#listacontactos.search(None,listacontactos.head,buscado)
+#listacontactos.eliminarContacto(None,listacontactos.head,buscado)
+#lastTime = time() - inicio
+#print("El tiempo de eliminación en", n ,"contactos es de" ,lastTime, "segundos")

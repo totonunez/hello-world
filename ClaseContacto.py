@@ -15,12 +15,11 @@ class Contacto:
         self.apellido = apellido
         self.telefono = telefono
         self.email = email
+        self.key = nombre+apellido
         self.next = None
-        self.prev = None
 
     def getInformacion(self):
         print("Nombre: ",self.nombre)
         print("Apellido: ",self.apellido)
         print("Número de Telefono: ",self.telefono)
         print("Email: ",self.email)
-

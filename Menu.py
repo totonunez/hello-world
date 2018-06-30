@@ -1,5 +1,8 @@
 from ListaContactos import *
 from ArbolContactos import *
+from AVLContactos import *
+from HashContacto import *
+from CopiaArbol2_3 import *
 
 class Menu:
     def __init__(self):
@@ -30,7 +33,7 @@ class Menu:
 
     def Lista(self):
         print("Ha ingresado la lista de contactos, ingrese su opción")
-        print("1. Ingresar")
+        print("1. Ingresar N Contactos")
         print("2. Eliminar")
         print("3. Desplegar Contactos")
         print("0. Volver al Menu Anterior")
@@ -39,8 +42,9 @@ class Menu:
         if op==1:
             if self.head == None:
                 self.head = ListaContactos()
-            self.head.agregarContacto()
-            self.cont +=1
+            n = input("Ingrese la Cantidad de contactos que desea tener en su lista: ")
+            self.head.agregarNContactos(n)
+            self.cont +=n
             self.Lista()
 
         elif op==2:
@@ -48,7 +52,7 @@ class Menu:
                 print("No puede eliminar Contactos, dado que no hay ninguno\n")
                 self.Lista()
             else:
-                self.head.eliminarContacto()
+                self.head.Eliminar()
                 self.cont -=1
                 self.Lista()
 
@@ -66,6 +70,7 @@ class Menu:
             aux = int(input("Ingrese opcion: "))
             if aux == 1:
                 self.head = None
+                self.cont = 0
                 self.Inicio()
 
             elif aux==2:
@@ -89,10 +94,11 @@ class Menu:
         op=int(input("Ingrese opcion: "))
         if op==1:
             if self.head == None:
-                self.head = ArbolContacto()
-            self.head.agregarContacto()
-            self.cont +=1
-            self.ArbolBinario()
+                self.head = ArbolContactos()
+            n = input("Ingrese la Cantidad de contactos que desea tener en su lista: ")
+            self.head.agregarNContactos(n)
+            self.cont +=n
+            self.Lista()
 
         elif op==2:
             if self.head == None:

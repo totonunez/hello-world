@@ -1,5 +1,15 @@
-class Node:
-	def __init__(self, data, par = None):
+class Data:
+        def __init__(self,nombre,apellido,telefono,email):
+                self.nombre=nombre
+                self.apellido=apellido
+                self.telefono= telefono
+                self.email=email
+
+class Contacto23:
+        '''
+ LA data que entra en el inicializador es de clase DATA
+        '''
+	def __init__(self, data , par = None):
 		#print ("Node __init__: " + str(data))
 		self.data = list([data])
 		self.parent = par
@@ -95,6 +105,8 @@ class Node:
 		for child in self.child:
 			child._preorder()
 
+
+
 class Tree:
 	def __init__(self):
 		print("Inicializar el arbol en Nulo")
@@ -127,9 +139,18 @@ class Tree:
 		print ('----Preorder----')
 		self.root._preorder()
 
-tree = Tree()
 
-lst = [13, 7, 24, 15, 4, 29, 20, 16, 19, 1, 5, 22, 17]
+
+def ingresarData(self,nombre,apellido,telefono,email):
+                contacto = Data(nombre,apellido,telefono,email)
+                return contacto
+
+def ingresarNContactos(n):
+        lst = [None]*n
+        for i in range(0,n):
+                lst[i]=ingresarData()
+
+tree = Tree()
 for item in lst:
 	tree.insert(item)
 tree.preorder()

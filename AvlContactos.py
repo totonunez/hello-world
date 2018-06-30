@@ -6,55 +6,57 @@ def debug(msg):
     if outputdebug:
         print(msg)
 
-class Contacto():
-    def __init__(self, key):
-        self.key = key
+class ContactoAvl():
+    def __init__(self, nombre,apellido,telefono,email):
+        self.nombre = nombre
+        self.apellido = apellido
+        self.telefono = telefono
+        self.email = email
         self.left = None
         self.right = None
 
 
-
-
 class AVLTree():
     def __init__(self, *args):
-        self.node = None
+        self.root = None
         self.height = -1
-        self.balance = 0;
+        self.balance = 0
 
         if len(args) == 1:
             for i in args[0]:
                 self.insert(i)
 
     def height(self):
-        if self.node:
-            return self.node.height
+        if self.root:
+            return self.root.height
         else:
             return 0
 
     def is_leaf(self):
         return (self.height == 0)
 
-    def insert(self, key):
-        tree = self.node
-
-        newnode = Node(key)
+    def insert(self, contacto):
+        tree = self.root
 
         if tree == None:
-            self.node = newnode
-            self.node.left = AVLTree()
-            self.node.right = AVLTree()
-            debug("Inserted key [" + str(key) + "]")
+            self.root = contacto
+            self.root.left = AVLTree()
+            self.root.right = AVLTree()
+            debug("El Contacto incertado [" + str(contacto.apellido) + "]")
 
-        elif key < tree.key:
-            self.node.left.insert(key)
+        elif contacto.apellido < self.root.apellido:
+            self.root.left.insert(contacto)
 
-        elif key > tree.key:
-            self.node.right.insert(key)
+        elif contacto.apellido > self.root.apellido:
+            self.root.right.insert(contacto)
 
         else:
-            debug("Key [" + str(key) + "] already in tree.")
+            debug("El contacto incertado [" + str(contacto.apellido) + "] ya está en el arbol.")
 
         self.rebalance()
+
+    def agregarContacto(self):
+        return contacto
 
     def rebalance(self):
         '''
@@ -65,8 +67,8 @@ class AVLTree():
         self.update_balances(False)
         while self.balance < -1 or self.balance > 1:
             if self.balance > 1:
-                if self.node.left.balance < 0:
-                    self.node.left.lrotate() # we're in case II
+                if self.root.left.balance < 0:
+                    self.root.left.lrotate() # we're in case II
                     self.update_heights()
                     self.update_balances()
                 self.rrotate()
@@ -74,8 +76,8 @@ class AVLTree():
                 self.update_balances()
 
             if self.balance < -1:
-                if self.node.right.balance > 0:
-                    self.node.right.rrotate() # we're in case III
+                if self.root.right.balance > 0:
+                    self.root.right.rrotate() # we're in case III
                     self.update_heights()
                     self.update_balances()
                 self.lrotate()
@@ -86,83 +88,87 @@ class AVLTree():
 
     def rrotate(self):
         # Rotate left pivoting on self
-        debug ('Rotating ' + str(self.node.key) + ' right')
-        A = self.node
-        B = self.node.left.node
-        T = B.right.node
+        debug ('Rotar contacto de apellido ' + str(self.root.apellido) + ' derecho')
+        A = self.root
+        B = self.root.left.root
+        T = B.right.root
 
-        self.node = B
-        B.right.node = A
-        A.left.node = T
-
+        self.root = B
+        B.right.root = A
+        A.left.root = T
 
     def lrotate(self):
         # Rotate left pivoting on self
-        debug ('Rotating ' + str(self.node.key) + ' left')
-        A = self.node
-        B = self.node.right.node
-        T = B.left.node
+        debug ('Rotar contacto de apellido ' + str(self.root.apellido) + ' izquierdo')
+        A = self.root
+        B = self.root.right.root
+        T = B.left.root
 
-        self.node = B
-        B.left.node = A
-        A.right.node = T
+        self.root = B
+        B.left.root = A
+        A.right.root = T
 
 
     def update_heights(self, recurse=True):
-        if not self.node == None:
+        if not self.root == None:
             if recurse:
-                if self.node.left != None:
-                    self.node.left.update_heights()
-                if self.node.right != None:
-                    self.node.right.update_heights()
+                if self.root.left != None:
+                    self.root.left.update_heights()
+                if self.root.right != None:
+                    self.root.right.update_heights()
 
-            self.height = max(self.node.left.height,
-                              self.node.right.height) + 1
+            self.height = max(self.root.left.height,
+                              self.root.right.height) + 1
         else:
             self.height = -1
 
     def update_balances(self, recurse=True):
-        if not self.node == None:
+        if not self.root == None:
             if recurse:
-                if self.node.left != None:
-                    self.node.left.update_balances()
-                if self.node.right != None:
-                    self.node.right.update_balances()
+                if self.root.left != None:
+                    self.root.left.update_balances()
+                if self.root.right != None:
+                    self.root.right.update_balances()
 
-            self.balance = self.node.left.height - self.node.right.height
+            self.balance = self.root.left.height - self.root.right.height
         else:
             self.balance = 0
 
-    def delete(self, key):
+    def delete(self,contacto):
         # debug("Trying to delete at node: " + str(self.node.key))
-        if self.node != None:
-            if self.node.key == key:
-                debug("Deleting ... " + str(key))
-                if self.node.left.node == None and self.node.right.node == None:
-                    self.node = None # leaves can be killed at will
-                # if only one subtree, take that
-                elif self.node.left.node == None:
-                    self.node = self.node.right.node
-                elif self.node.right.node == None:
-                    self.node = self.node.left.node
+        if self.root != None:
+            if self.root.apellido == contacto.apellido and self.root.nombre == contacto.nombre:
+                debug("Eliminar el Contacto con nombre  " + contacto.nombre + " y " + contacto.apellido)
+                if self.root.left.root == None and self.root.right.root == None:
+                    self.root = None # leaves can be killed at will
 
-                # worst-case: both children present. Find logical successor
+                # Si el contacto que encontramos solo tiene un subarbol
+                elif self.root.left.root == None:
+                    self.root = self.root.right.root
+                elif self.root.right.root == None:
+                    self.root = self.root.left.root
+
+                # peor caso: El subarbol que encontramos tiene ambos hijos , encontrar el successo
                 else:
-                    replacement = self.logical_successor(self.node)
-                    if replacement != None: # sanity check
-                        debug("Found replacement for " + str(key) + " -> " + str(replacement.key))
-                        self.node.key = replacement.key
+                    replacement = self.logical_successor(self.root)
+                    if replacement != None:
+                        debug("Se logró encontrar y se reemplazará por: " + nombre  + " y " + apellido + " -> " + replacement.apellido)
+                        self.root.nombre = replacement.nombre
+                        self.root.apellido = replacement.apellido
+                        self.root.telefono = replacement.telefono
+                        self.root.email = replacement.email
 
                         # replaced. Now delete the key from right child
-                        self.node.right.delete(replacement.key)
+                        self.root.right.delete(replacement)
 
                 self.rebalance()
                 return
-            elif key < self.node.key:
-                self.node.left.delete(key)
-            elif key > self.node.key:
-                self.node.right.delete(key)
+            elif contacto.apellido < self.root.apellido:
+                self.root.left.delete(contacto)
+            elif contacto.apellido > self.root.apellido:
+                self.root.right.delete(contacto)
 
+            #Recordar siempre balancear al final
             self.rebalance()
         else:
             return
@@ -171,32 +177,32 @@ class AVLTree():
         '''
         Find the biggest valued node in LEFT child
         '''
-        node = node.left.node
+        node = node.left.root
         if node != None:
             while node.right != None:
-                if node.right.node == None:
+                if node.right.root == None:
                     return node
                 else:
-                    node = node.right.node
+                    node = node.right.root
         return node
 
     def logical_successor(self, node):
         '''
         Find the smallese valued node in RIGHT child
         '''
-        node = node.right.node
+        node = node.right.root
         if node != None: # just a sanity check
 
             while node.left != None:
                 debug("LS: traversing: " + str(node.key))
-                if node.left.node == None:
+                if node.left.root == None:
                     return node
                 else:
-                    node = node.left.node
+                    node = node.left.root
         return node
 
     def check_balanced(self):
-        if self == None or self.node == None:
+        if self == None or self.root == None:
             return True
 
         # We always need to make sure we are balanced
@@ -205,17 +211,17 @@ class AVLTree():
         return ((abs(self.balance) < 2) and self.node.left.check_balanced() and self.node.right.check_balanced())
 
     def inorder_traverse(self):
-        if self.node == None:
+        if self.root == None:
             return []
 
         inlist = []
-        l = self.node.left.inorder_traverse()
+        l = self.root.left.inorder_traverse()
         for i in l:
             inlist.append(i)
 
-        inlist.append(self.node.key)
+        inlist.append(self.root.apellido)
 
-        l = self.node.right.inorder_traverse()
+        l = self.root.right.inorder_traverse()
         for i in l:
             inlist.append(i)
 
@@ -223,40 +229,73 @@ class AVLTree():
 
     def display(self, level=0, pref=''):
         '''
-        Display the whole tree. Uses recursive def.
-        TODO: create a better display using breadth-first search
+        Deplegar completamente los apellido de todo el arbol de manera recursiva.
+        TODO: crear una mejor demostración para poder demostrar todas las cosas.
         '''
-        self.update_heights()  # Must update heights before balances
+        self.update_heights()  # Primero se requiere actualizar la altura antes
+                               # Rebalancear el arbol
         self.update_balances()
-        if(self.node != None):
-            print( "-" * level * 2, pref, self.node.key, "[" + str(self.height) + ":" + str(self.balance) + "]", 'L' if self.is_leaf() else ' '    )
-            if self.node.left != None:
-                self.node.left.display(level + 1, '<')
-            if self.node.left != None:
-                self.node.right.display(level + 1, '>')
+        if(self.root != None):
+            print( "-" * level * 2, pref, self.root.nombre , self.root.apellido, "[" + str(self.height) + ":" + str(self.balance) + "]", 'L' if self.is_leaf() else ' '    )
+            if self.root.left != None:
+                self.root.left.display(level + 1, '<')
+            if self.root.left != None:
+                self.root.right.display(level + 1, '>')
+
+    def ingresarNContactos(self,n):
+        from faker import Faker
+        from random import randint
+        fake = Faker()
+        for i in range(0,n):
+            nombreCompleto=fake.name()
+            email = fake.email()
+            telefono = str(randint(11111111,99999999))
+            nuevo = ContactoAvl(nombreCompleto.split()[0],nombreCompleto.split()[1],telefono,email)
+            self.insert(nuevo)
+
+        return True
+
+    def buscarContacto(self):
+         print("Agregar nombre: ")
+         nombre = input()
+         print("Agregar apellido: ")
+         apellido = input()
+         buscado = ContactoAvl(nombre,apellido,None,None)
+         return buscado
 
 
+                
+    def __search(self, contacto, tree):
+        if contacto.apellido == tree.apellido:
+            print("Nodo Encontrado")
+        elif contacto.apellido < tree.apellido:
+            self.__search(contacto, tree.left.root)
+        else:
+            self.__search(contacto, tree.right.root)
 
-
+    def search(self, contacto):
+        if self.root == None:
+            print("El arbol está vacio")
+            return False
+        else:
+            self.__search(contacto, self.root)
+            
 # Usage example
 if __name__ == "__main__":
-    a = AVLTree()
+    
+    listaAvl = AVLTree()
+    n=int(input("Agregar la cantidad de contactos en su estructura: "))
+    from time import time
+    inicio = time()
     print ("----- Inserting -------")
-    #inlist = [5, 2, 12, -4, 3, 21, 19, 25]
-    inlist = [7, 5, 2, 6, 3, 4, 1, 8, 9, 0]
-    for i in inlist:
-        a.insert(i)
+    listaAvl.ingresarNContactos(n)
+    lastTime = time() - inicio
+    print(lastTime)
 
-    a.display()
-
-    print( "----- Deleting -------")
-    a.delete(3)
-    a.delete(4)
-    # a.delete(5)
-    a.display()
-
-    print ()
-    print ("Input            :", inlist)
-    print ("deleting ...       ", 3)
-    print ("deleting ...       ", 4)
-    print ("Inorder traversal:", a.inorder_traverse())
+    listaAvl.display()
+    buscado = listaAvl.buscarContacto()
+    inicio = time()
+    listaAvl.search(buscado)
+    #listacontactos.eliminarContacto(None,listacontactos.head,buscado)
+    lastTime = time() - inicio
+    print("El tiempo de busqueda en", n ,"contactos es de" ,lastTime, "segundos")

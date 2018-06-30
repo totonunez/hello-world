@@ -1,14 +1,22 @@
 from faker import Faker
+from time import time
 fake = Faker()
 
-#for i in range(10):
-    #print(fake.name()," ",fake.email())
-x=fake.name()
+inicio = time()
 
-def nombre(x):
-    return sum( for i in x)
+for i in range(10):
+    print(fake.name()," ",fake.email())
 
-print(nombre(x))
+lapsoTiempo = time() - inicio
+print(lapsoTiempo)
 
-            
+#for i in range(0,10):
+ #   x=fake.name()
+  #  a,b=x.split()
+
     
+
+
+
+#y = fake.name()
+#a,b=y.split()

@@ -7,6 +7,7 @@ class ArbolContactos:
 
     def getVacio(self):
         return self.root == None
+
     def __add(self, contacto, brunch):
         if brunch == contacto:
             print("Este nodo ya existe")
@@ -23,7 +24,7 @@ class ArbolContactos:
                     brunch.right.parent = brunch
                 else:
                     self.__add(contacto, brunch.right)
-            
+
     def add(self, contacto):
         if self.getVacio():
             self.root = contacto
@@ -42,13 +43,33 @@ class ArbolContactos:
         nuevo = ContactoArbol(nombre,apellido,telefono,email)
         return self.add(nuevo)
 
+
+    def eliminarContacto(self):
+        nombre=input("Ingrese nombre de la persona que desee eliminar \n ")
+        apellido=input("Ingrese apellido de la persona que desee eliminar \n ")
+        delete = ContactoArbol(nombre,apellido,None,None)
+        borrar = self.search(delete)
+        if borrar:
+            self.deleteContacto(borrar)
+        else:
+            print("No se han encontrado contactos")
+            print("PORFAVOR VUELVA A INGRESAR DATOS")
+            self.eliminarContacto()
+
+    def buscarContacto(self):
+        nombre=input("Ingrese nombre de la persona que desee eliminar \n ")
+        apellido=input("Ingrese apellido de la persona que desee eliminar \n ")
+        buscado = ContactoArbol(nombre,apellido,None,None)
+        self.search(buscado)
+
+
     def __search(self, contacto, brunch):
         if brunch == None:
-            print('gg')
+            print('gg no existe tu Contacto')
             return None
         elif contacto.nombre == brunch.nombre and contacto.apellido == brunch.apellido:
             print('iziPizie')
-            return brunch 
+            return brunch
         elif contacto.apellido < brunch.apellido and brunch.left != None:
             self.__search(contacto, brunch.left)
         elif contacto.apellido > brunch.apellido and brunch.right != None:
@@ -60,15 +81,15 @@ class ArbolContactos:
             return None
         else:
             return self.__search(contacto, self.root)
-            
-                    
+
+
     def deleteContacto(self, contacto):
         def min_value_contacto(n):
             current = n
             while current.left != None:
                 current = current.left
             return current
-        
+
         def number_children(n): # Return the number of childrens of the node to be deleted
             number_children = 0
             if n.left != None:
@@ -77,7 +98,7 @@ class ArbolContactos:
                 number_children += 1
             return number_children
 
-        node_parent = node.parent(contacto) # Get the parent of the node to be deleted
+        node_parent = contacto.parent # Get the parent of the node to be deleted
         node_children = number_children(contacto)
 
         # Case 1: Deleting a node without childrens
@@ -87,6 +108,10 @@ class ArbolContactos:
                 node_parent.left = None
             else:
                 node_parent.right = None
+
+            if contacto == self.root:
+                self.root = None
+
         # Case 2: Deleting a node with one children
         if node_children == 1:
             # Get the children of the node to be deleted
@@ -96,13 +121,21 @@ class ArbolContactos:
                 child = contacto.right
 
             # Replace the node to be deleted with its child
-            if node_parent.left == contacto:
-                node_parent.left = child
-            else:
-                node_parent.right = child
+            if contacto is not self.root:
 
-            # Change the parent of the child
-            child.parent = node_parent
+                if node_parent.left == contacto:
+                    node_parent.left = child
+                else:
+                    node_parent.right = child
+
+                # Change the parent of the child
+                child.parent = node_parent
+
+            else:
+                self.root=child
+                child.parent=None
+
+
         # Case 3: Deleting a node with two childrens
         if node_children == 2:
             successor = min_value_node(contacto.right) # Get the inorder successor of the deleted node
@@ -112,19 +145,8 @@ class ArbolContactos:
             contacto.mail = successor.mail # Copia los valores generales del nodo completamente
             self.delete_node(successor)
 
-    def eliminar(self):
-        nombre=input("Ingrese nombre de la persona que desee eliminar \n ")
-        apellido=input("Ingrese apellido de la persona que desee eliminar \n ")
-        delete = ContactoArbol(nombre,apellido,None,None)
-        borrar = self.search(delete)
-        if borrar:
-            self.deleteContacto(borrar)
-        else:
-            print("No se han encontrado contactos")
-            print("PORFAVOR VUELVA A INGRESAR DATOS")
-            self.eliminar()
 
-            
+
     def InOrder(self,root):
         if root is None:
             pass
@@ -134,32 +156,7 @@ class ArbolContactos:
             print("")
             self.InOrder(root.right)
 
-    def PostOrder(self,root):
-        if root is None:
-             pass
-        else:
-            self.PostOrder(root.left)
-            self.PostOrder(root.right)
-            root.getInformacion()
 
-    def PreOrder(self, root):
-        if root is None:
-            pass
-        else:
-            root.getInformacion
-            self.PreOrder(root.left)
-            self.PreOrder(root.right)
-
-    def leaf_number(self,root): #Calcula el numero de hojas que hay en el arbol
-        if root is None:
-            pass
-        else:
-            if root.left & root.right is None:
-                self.hojas  += 1
-            self.leaft_numer(root.left)
-            self.leaft_numer(root.right)
-
-        print('El número total de hojas en el arbol es de ', self.hojas)
 
     def _tree_height(self, current, height):
         if current == None:
@@ -197,7 +194,7 @@ class ArbolContactos:
             self.__find_minimum(self.root)
 
     def __find_minimum(self, node):
-        
+
         if node.left is None:
             print("El minimo valor es ", node.value)
         else:
@@ -211,8 +208,33 @@ class ArbolContactos:
             self.__find_maximo(self.root)
 
     def __find_maximo(self, node):
-        
+
         if node.right is None:
             print("El máximo valor es ", node.value)
         else:
             self.__find_maximo(node.righ)
+
+    def ingresarNContactos(self,n):
+        from faker import Faker
+        from random import randint
+        fake = Faker()
+        for i in range(0,n):
+                nombreCompleto=fake.name()
+                email = fake.email()
+                telefono = str(randint(11111111,99999999))
+                nuevo = ContactoArbol(nombreCompleto.split()[0],nombreCompleto.split()[1],telefono,email)
+                self.add(nuevo)
+
+        return True
+
+if __name__ == "__main__":
+
+    tree = ArbolContactos()
+    n=int(input("Agregar la cantidad de contactos en su estructura: "))
+    from time import time
+    inicio = time()
+    print ("----- Inserting -------")
+    tree.ingresarNContactos(n)
+    lastTime = time() - inicio
+    #tree.InOrder(tree.root)
+    print("El tiempo de ejecución de los programas es de: ", lastTime)

@@ -7,9 +7,11 @@ class ContactoArbol:
         self.left = None
         self.right = None
         self.parent = None
-
+        self.altura = 0
+ 
     def getInformacion(self):
         print("Nombre: ",self.nombre)
         print("Apellido: ",self.apellido)
         print("Número de Telefono: ",self.telefono)
         print("Email: ",self.email)
+   
