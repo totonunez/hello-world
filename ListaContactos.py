@@ -57,22 +57,7 @@ class ListaContactos:
         print("Ingrese apellido")
         apellido = input()
         eliminar = Contacto(nombre,apellido,None,None)
-        ok = self.eliminarContacto(None,self.head,eliminar)
-        if ok:
-            print("Nodo eliminado con éxito")
-        else:
-            print("No se encuentra registrada esta persona")
-            print("Desea agregar el contacto?")
-            var=3
-            while var != 1 or var != 2:
-                var = input(print("Presione: SI: 1 , NO: 2"))
-                if var == 1:
-                    self.agregarContacto()
-                elif var == 2:
-                    pass
-                else:
-                    print("Porvafor vuelva a agregar una opción valida")
-                    pass
+        self.eliminarContacto(None,self.head,eliminar)
 
     def eliminarContacto(self,prev,aux,eliminado):
         if eliminado.nombre == aux.nombre and eliminado.apellido == aux.apellido:
@@ -81,7 +66,6 @@ class ListaContactos:
             else:
                 prev.next=aux.next
             print("Se a logrado encontrar el contacto")
-            return aux
         else:
             prev = aux
             aux = aux.next
@@ -103,7 +87,7 @@ class ListaContactos:
                 aux = aux.next
 
 
-    def ingresarNContactos(self,n):
+    def agregarNContactos(self,n):
         from faker import Faker
         from random import randint
         from time import time

@@ -44,7 +44,7 @@ class HashContacto:
                 return aux.getInformacion()
             aux = aux.next
 
-    def ingresarNContactos(self,n):
+    def agregarNContactos(self,n):
         from faker import Faker
         from random import randint
         fake = Faker()
@@ -71,8 +71,8 @@ class HashContacto:
         while aux:
             if key == aux.key:
                 return aux.getInformacion()
-            aux = aux.next        
-
+            aux = aux.next
+'''
 print("HOLA BUENAS AGREGAR DATOS")
 size = int(input("Agregar el tamaño de el arreglo de su lista de contactos de Hash: "))
 hash = HashContacto(size)
@@ -89,3 +89,4 @@ inicio = time()
 hash.getContactoHash(clave)
 lastTime = time()-inicio
 print(lastTime)
+'''

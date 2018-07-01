@@ -55,8 +55,6 @@ class AVLTree():
 
         self.rebalance()
 
-    def agregarContacto(self):
-        return contacto
 
     def rebalance(self):
         '''
@@ -242,7 +240,7 @@ class AVLTree():
             if self.root.left != None:
                 self.root.right.display(level + 1, '>')
 
-    def ingresarNContactos(self,n):
+    def agregarNContactos(self,n):
         from faker import Faker
         from random import randint
         fake = Faker()
@@ -253,18 +251,16 @@ class AVLTree():
             nuevo = ContactoAvl(nombreCompleto.split()[0],nombreCompleto.split()[1],telefono,email)
             self.insert(nuevo)
 
-        return True
-
     def buscarContacto(self):
          print("Agregar nombre: ")
          nombre = input()
          print("Agregar apellido: ")
          apellido = input()
          buscado = ContactoAvl(nombre,apellido,None,None)
-         return buscado
+         self.search(buscado)
 
 
-                
+
     def __search(self, contacto, tree):
         if contacto.apellido == tree.apellido:
             print("Nodo Encontrado")
@@ -279,10 +275,11 @@ class AVLTree():
             return False
         else:
             self.__search(contacto, self.root)
-            
+
 # Usage example
+'''
 if __name__ == "__main__":
-    
+
     listaAvl = AVLTree()
     n=int(input("Agregar la cantidad de contactos en su estructura: "))
     from time import time
@@ -299,3 +296,4 @@ if __name__ == "__main__":
     #listacontactos.eliminarContacto(None,listacontactos.head,buscado)
     lastTime = time() - inicio
     print("El tiempo de busqueda en", n ,"contactos es de" ,lastTime, "segundos")
+'''

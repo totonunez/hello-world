@@ -214,7 +214,7 @@ class ArbolContactos:
         else:
             self.__find_maximo(node.righ)
 
-    def ingresarNContactos(self,n):
+    def agregarNContactos(self,n):
         from faker import Faker
         from random import randint
         fake = Faker()
@@ -226,7 +226,7 @@ class ArbolContactos:
                 self.add(nuevo)
 
         return True
-
+'''
 if __name__ == "__main__":
 
     tree = ArbolContactos()
@@ -238,3 +238,4 @@ if __name__ == "__main__":
     lastTime = time() - inicio
     #tree.InOrder(tree.root)
     print("El tiempo de ejecución de los programas es de: ", lastTime)
+'''

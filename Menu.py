@@ -1,8 +1,7 @@
 from ListaContactos import *
 from ArbolContactos import *
-from AVLContactos import *
+from AvlContactos import *
 from HashContacto import *
-from CopiaArbol2_3 import *
 
 class Menu:
     def __init__(self):
@@ -42,7 +41,7 @@ class Menu:
         if op==1:
             if self.head == None:
                 self.head = ListaContactos()
-            n = input("Ingrese la Cantidad de contactos que desea tener en su lista: ")
+            n = int(input("Ingrese la Cantidad de contactos que desea tener en su lista: "))
             self.head.agregarNContactos(n)
             self.cont +=n
             self.Lista()
@@ -95,10 +94,10 @@ class Menu:
         if op==1:
             if self.head == None:
                 self.head = ArbolContactos()
-            n = input("Ingrese la Cantidad de contactos que desea tener en su lista: ")
+            n = int(input("Ingrese la Cantidad de contactos que desea tener en su lista: "))
             self.head.agregarNContactos(n)
             self.cont +=n
-            self.Lista()
+            self.ArbolBinario()
 
         elif op==2:
             if self.head == None:
@@ -114,7 +113,7 @@ class Menu:
                 print("No se encuentran Contactos disponible, porfavor ingrese otra opcion")
                 self.ArbolBinario()
             else:
-                self.head.InOrder()
+                self.head.InOrder(self.head.root)
                 self.ArbolBinario()
 
         elif op==0:
@@ -123,7 +122,7 @@ class Menu:
             aux = int(input("Ingrese opcion: "))
             if aux == 1:
                 self.head = None
-                self.ArbolBinario()
+                self.Inicio()
 
             elif aux==2:
                 print("Reiniciar Menu de Lista\n")
@@ -146,9 +145,10 @@ class Menu:
 
         op=int(input("Ingrese opcion: "))
         if op==1:
+            n = int(input("Ingrese la Cantidad de contactos que desea tener en su lista: "))
             if self.head == None:
-                self.head = AVLContactos()
-            self.head.agregarContacto()
+                self.head = AVLTree()
+            self.head.agregarNContactos(n)
             self.cont +=1
             self.AVLtree()
 
@@ -166,7 +166,7 @@ class Menu:
                 print("No se encuentran Contactos disponible, porfavor ingrese otra opcion")
                 self.AVLtree()
             else:
-                self.head.printList()
+                self.head.display()
                 self.AVLtree()
 
         elif op==0:
@@ -175,7 +175,7 @@ class Menu:
             aux = int(input("Ingrese opcion: "))
             if aux == 1:
                 self.head = None
-                self.AVLtree()
+                self.Inicio()
 
             elif aux==2:
                 print("Reiniciar Menu de Lista\n")
@@ -240,6 +240,59 @@ class Menu:
             self.Arbolito23()
 
 
+    def Hashing(self):
+        print("Ha ingresado la lista de contactos, ingrese su opción")
+        print("1. Ingresar")
+        print("2. Eliminar")
+        print("3. Desplegar Contactos")
+        print("0. Volver al Menu Anterior")
+
+        op=int(input("Ingrese opcion: "))
+        if op==1:
+            if self.head == None:
+                tam = int(input("Seleccione el tamaño de su lista hash: "))
+                self.head = HashContacto(tam)
+            n = int(input("Ingrese la Cantidad de contactos que desea tener en su lista: "))
+            self.head.agregarNContactos(n)
+            self.cont +=1
+            self.Hashing()
+
+        elif op==2:
+            if self.head == None:
+                print("No puede eliminar Contactos, dado que no hay ninguno\n")
+                self.Hashing()
+            else:
+                key = input("Ingresar clave para eliminar contacto")
+                self.head.getEliminarHash(key)
+                self.cont -=1
+                self.Hashing()
+
+        elif op==3:
+            if self.head == None:
+                print("No se encuentran Contactos disponible, porfavor ingrese otra opcion")
+                self.Hashing()
+            else:
+                self.head.printHash()
+                self.Hashing()
+
+        elif op==0:
+            print("¿ Esta seguro de eliminar la estructura de datos ?")
+            print("1.Si \n2.No")
+            aux = int(input("Ingrese opcion: "))
+            if aux == 1:
+                self.head = None
+                self.Inicio()
+
+            elif aux==2:
+                print("Reiniciar Menu de Lista\n")
+                self.Hashing()
+            else:
+                print("Opcion no valida, por favor ingrese valores correctos")
+                self.Hashing()
+
+        else:
+            print("Opcion no valida, por favor ingresar opción valida.")
+            self.Hashing()
 
 
 if __name__ == "__main__":
